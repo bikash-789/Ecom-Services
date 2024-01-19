@@ -25,7 +25,9 @@ public class ProductService {
                         .name(productRequest.getName())
                                 .description(productRequest.getDescription())
                                         .price(productRequest.getPrice())
-                .build();
+                                            .image(productRequest.getImage())
+                                                .category(productRequest.getCategory())
+                                    .build();
        productRepository.save(product);
        log.info("Product {} is saved!", product.getId());
     }
@@ -41,6 +43,8 @@ public class ProductService {
                         .name(product.getName())
                                 .description(product.getDescription())
                                         .price(product.getPrice())
+                .image(product.getImage())
+                .category(product.getCategory())
                 .build();
     }
 
@@ -53,7 +57,8 @@ public class ProductService {
             existingProduct.setName(productRequest.getName());
             existingProduct.setDescription(productRequest.getDescription());
             existingProduct.setPrice(productRequest.getPrice());
-
+            existingProduct.setCategory(productRequest.getCategory());
+            existingProduct.setImage(productRequest.getImage());
             // Save the updated product back to the database
             productRepository.save(existingProduct);
 
