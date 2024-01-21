@@ -22,6 +22,7 @@ microservices-spring-boot/
 |-- order-service/
 |-- discovery-service/
 |-- api-gateway/
+|-- notification-service/
 
 
 ## Getting Started
