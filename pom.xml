@@ -22,8 +22,7 @@
         <module>inventory-service</module>
         <module>discovery-service</module>
         <module>api-gateway</module>
-        <module>api-gateway</module>
-        <module>api-gateway</module>
+        <module>notification-service</module>
     </modules>
 
     <properties>
@@ -56,6 +55,19 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <from>
+                        <image>eclipse-temurin:21.0.1_12-jdk-jammy</image>
+                    </from>
+                    <to>
+                        <image>registry.hub.docker.com/bikash789/${project.artifactId}</image>
+                    </to>
                 </configuration>
             </plugin>
         </plugins>
