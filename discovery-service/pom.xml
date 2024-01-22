@@ -47,6 +47,7 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <mainClass>com.bikash.discoveryservice.DiscoveryServiceApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>
