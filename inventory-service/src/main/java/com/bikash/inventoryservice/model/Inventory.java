@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @Entity
 @Table(name="t_inventory")
@@ -12,6 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityScan(basePackages = "com.bikash.inventoryservice")
 public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

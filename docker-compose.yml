@@ -1,5 +1,5 @@
 ---
-version: '3.7'
+version: '3.8'
 services:
   ## MySQL Docker Compose Config
   postgres-order:
@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: Clash@2215
       PGDATA: /data/postgres
     volumes:
-      - ./postgres-order:/data/postgres
+      - db:/postgres-order/data/postgres
     expose:
       - "5431"
     ports:
@@ -29,7 +29,7 @@ services:
       PGDATA: /data/postgres
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8"
     volumes:
-      - ./postgres-inventory:/data/postgres
+      - db:/postgres-inventory/data/postgres
     ports:
       - "5432:5432"
     restart: always
@@ -37,14 +37,17 @@ services:
   ## Mongo Docker Compose Config
   mongo:
     container_name: mongo
-    image: mongo:4.4.14-rc0-focal
+    image: mongo:5.0.2
     restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=123456
     ports:
-      - "27017:27017"
+      - "7017:27017"
     expose:
       - "27017"
     volumes:
-      - ./mongo-data:/data/db
+      - db:/mongo-data/data/db
 
   ## Keycloak Config with Mysql database
   keycloak-mysql:
@@ -60,7 +63,7 @@ services:
 
   keycloak:
     container_name: keycloak
-    image: quay.io/keycloak/keycloak:18.0.0
+    image: quay.io/keycloak/keycloak:23.0.4
     command: [ "start-dev", "--import-realm" ]
     environment:
       DB_VENDOR: MYSQL
@@ -111,7 +114,7 @@ services:
 
   ## Eureka Service
   discovery-service:
-    image: bikash789/discovery-service
+    image: bikash789/discovery-service:latest
     container_name: discovery-service
     ports:
       - "8761:8761"
@@ -121,7 +124,7 @@ services:
       - zipkin
 
   api-gateway:
-    image: bikash789/api-gateway
+    image: bikash789/api-gateway:latest
     container_name: api-gateway
     ports:
       - "8181:8080"
@@ -134,22 +137,20 @@ services:
       - zipkin
       - discovery-service
       - keycloak
-
   ## Product-Service Docker Compose Config
   product-service:
     container_name: product-service
-    image: bikash789/product-service
+    image: bikash789/product-service:latest
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - mongo
       - discovery-service
       - api-gateway
-
   ## Order-Service Docker Compose Config
   order-service:
     container_name: order-service
-    image: bikash789/order-service
+    image: bikash789/order-service:latest
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-order:5431/order-service
@@ -163,7 +164,7 @@ services:
   ## Inventory-Service Docker Compose Config
   inventory-service:
     container_name: inventory-service
-    image: bikash789/inventory-service
+    image: bikash789/inventory-service:latest
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-inventory:5432/inventory-service
@@ -175,7 +176,7 @@ services:
   ## Notification-Service Docker Compose Config
   notification-service:
     container_name: notification-service
-    image: bikash789/notification-service
+    image: bikash789/notification-service:latest
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
@@ -183,3 +184,6 @@ services:
       - broker
       - discovery-service
       - api-gateway
+
+volumes:
+  db:

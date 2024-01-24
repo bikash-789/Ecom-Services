@@ -15,20 +15,20 @@ import java.util.List;
 
 public class ProductController {
     private final ProductService productService;
-    @PostMapping("/create/product")
+    @PostMapping("/product/create")
     @ResponseStatus(HttpStatus.CREATED)
     public void createProduct(@RequestBody ProductRequest productRequest)
     {
         productService.createProduct(productRequest);
     }
 
-    @PutMapping("/update/product/{productId}")
+    @PutMapping("/product/update/{productId}")
     @ResponseStatus(HttpStatus.OK)
     public void updateProduct(@PathVariable String productId, @RequestBody ProductRequest productRequest)
     {
         productService.updateProduct(productId, productRequest);
     }
-    @GetMapping("/product")
+    @GetMapping("/product/get")
     @ResponseStatus(HttpStatus.OK)
     public List<ProductResponse> getAllProducts()
     {
