@@ -36,3 +36,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Some additional files generated when running containers
+./mysql_keycloak_data/*
+./realms/*
